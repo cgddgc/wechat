@@ -1,0 +1,46 @@
+﻿<?php
+include("test1.php");
+?>
+<html>
+
+<head>
+    <script src="1.js"></script>
+        <meta name="viewport" content="width=device-width">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<style type="text/css">
+        p {margin-left: 20px;color:white}
+        body {
+                color:white;
+                background:url("bg.png");
+                background-position: center 100%;
+                background-repeat:
+                no-repeat;
+                background-size:100%;
+            }
+		</style>
+</head>
+<title>缘分计算器</title>
+
+<body>
+    <p align="center">双十一快要到了，想知道你和你心目中的那个他/她和你的缘分吗，赶紧来测试下吧！
+        <br/>
+        <br/>
+    </p>
+<form width="700px" method="post">
+    <table align="center">
+    	<tr>
+            <td height=15ppx>你的名字：</td>
+            <td><input type="text" name="yourname"></td>
+        </tr>
+        <tr><td height=10ppx></td><td></td><tr>
+        <tr>
+            <td height=15ppx>对方名字：</td>
+            <td><input type="text" name="oname"></td>
+        </tr>
+        <tr><td height=10ppx></td><td></td><tr>
+    </table>
+    <p align="center"><input type="image" src="bottom.png" onClick="ff(yourname.value,oname.value)" style="height:30px;width:100px;"></p>
+</form>
+</body>
+
+</html>
