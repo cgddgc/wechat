@@ -49,30 +49,31 @@ function robot($keyword,$object)
     switch($code)
     {
         case "100000":
-       		$contentStr = $jsoninfo["text"];
-			$textTpl = "<xml>                                    
-								<ToUserName><![CDATA[%s]]></ToUserName>
-								<FromUserName><![CDATA[%s]]></FromUserName>
-								<CreateTime>%s</CreateTime>
-								<MsgType><![CDATA[text]]></MsgType>
-								<Content><![CDATA[%s]]></Content>
-								<FuncFlag>%d</FuncFlag>
-								</xml>"; 
-			$resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, $time, $contentStr, 0);
+       		#$contentStr = $jsoninfo["text"];
+		$contentStr=shell_exec('python movice.py');
+                $textTpl = "<xml>                                    
+                                    <ToUserName><![CDATA[%s]]></ToUserName>
+                                    <FromUserName><![CDATA[%s]]></FromUserName>
+                                    <CreateTime>%s</CreateTime>
+                                    <MsgType><![CDATA[text]]></MsgType>
+                                    <Content><![CDATA[%s]]></Content>
+                                    <FuncFlag>%d</FuncFlag>
+                                    </xml>"; 
+                $resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, $time, $contentStr, 0);
         break;
         case "200000":
-			$contentStr = $jsoninfo["text"];
-			$contentStr = $contentStr.$jsoninfo["url"];
-			$textTpl = "<xml>                                    
-								<ToUserName><![CDATA[%s]]></ToUserName>
-								<FromUserName><![CDATA[%s]]></FromUserName>
-								<CreateTime>%s</CreateTime>
-								<MsgType><![CDATA[text]]></MsgType>
-								<Content><![CDATA[%s]]></Content>
-								<FuncFlag>%d</FuncFlag>
-								</xml>"; 
-			$resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, $time, $contentStr, 0);
-		break;
+        		$contentStr = $jsoninfo["text"];
+                $contentStr = $contentStr.$jsoninfo["url"];
+                $textTpl = "<xml>                                    
+                                    <ToUserName><![CDATA[%s]]></ToUserName>
+                                    <FromUserName><![CDATA[%s]]></FromUserName>
+                                    <CreateTime>%s</CreateTime>
+                                    <MsgType><![CDATA[text]]></MsgType>
+                                    <Content><![CDATA[%s]]></Content>
+                                    <FuncFlag>%d</FuncFlag>
+                                    </xml>"; 
+                $resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, $time, $contentStr, 0);
+            break;
         case "302000":
        		   $title1 = $jsoninfo["list"][0]["article"];
      		   $url1 = $jsoninfo["list"][0]["detailurl"];
@@ -80,12 +81,12 @@ function robot($keyword,$object)
        		   $title2 = $jsoninfo["list"][2]["article"];
      		   $url2 = $jsoninfo["list"][2]["detailurl"];
      		   $description2 = $jsoninfo["list"][2]["source"];
-               $title3 = $jsoninfo["list"][1]["article"];
+                   $title3 = $jsoninfo["list"][1]["article"];
      		   $url3 = $jsoninfo["list"][1]["detailurl"];
      		   $description3 = $jsoninfo["list"][1]["source"];
            	   $picurl = $jsoninfo["list"][0]["icon"];
        		   $news = "<xml>
-						<ToUserName><![CDATA[%s]]></ToUserName>
+        		<ToUserName><![CDATA[%s]]></ToUserName>
                         <FromUserName><![CDATA[%s]]></FromUserName>
                         <CreateTime>%s</CreateTime>
                         <MsgType><![CDATA[news]]></MsgType>
@@ -111,8 +112,8 @@ function robot($keyword,$object)
                         </item>
                         </Articles>
                         </xml>";
-				$resultStr = sprintf($news, $object->FromUserName, $object->ToUserName, $time, $title1, $description1,$picurl ,$url1, $title2, $description2,$picurl ,$url2, $title3, $description3,$picurl ,$url3);
-			break;
+        $resultStr = sprintf($news, $object->FromUserName, $object->ToUserName, $time, $title1, $description1,$picurl ,$url1, $title2, $description2,$picurl ,$url2, $title3, $description3,$picurl ,$url3);
+        break;
     }
     return $resultStr;
 
@@ -137,57 +138,38 @@ function record($keyword, $fromusername)
 /*******************Linux命令查询函数*********************/
 
 function linux_comman($keyword,$object){
-	$url="http://linux.51yip.com/search/$keyword";
+
+        $url="http://linux.51yip.com/search/$keyword";
 	//$result=file_get_contents($url);
 	$time=time();
-    $news="<xml>
-			<ToUserName><![CDATA[%s]]></ToUserName>
-            <FromUserName><![CDATA[%s]]></FromUserName>
-			<CreateTime><![CDATA[%s]]></CreateTime>
-			<MsgType><![CDATA[news]]></MsgType>
-			<ArticleCount>1</ArticleCount>
-			<Articles>
-			<item>
-			<Title><![CDATA[%s]]></Title>
-			<Description><![CDATA[%s]]></Description>
-			<Url><![CDATA[%s]]></Url>
-			</item>
-			</Articles>
-		   </xml>";
-	$textTpl = "<xml>                                    
-				<ToUserName><![CDATA[%s]]></ToUserName>
-				<FromUserName><![CDATA[%s]]></FromUserName>
-				<CreateTime>%s</CreateTime>
-				<MsgType><![CDATA[text]]></MsgType>
-				<Content><![CDATA[%s]]></Content>
-				<FuncFlag>%d</FuncFlag>
-				</xml>"; 
-	//$resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, $time, $result, 0);
-	$title="Linux命令之：$keyword";
+        $news="<xml>
+	       <ToUserName><![CDATA[%s]]></ToUserName>
+               <FromUserName><![CDATA[%s]]></FromUserName>
+		<CreateTime><![CDATA[%s]]></CreateTime>
+               <MsgType><![CDATA[news]]></MsgType>
+               <ArticleCount>1</ArticleCount>
+               <Articles>
+               <item>
+               <Title><![CDATA[%s]]></Title>
+               <Description><![CDATA[%s]]></Description>
+               <Url><![CDATA[%s]]></Url>
+               </item>
+	       </Articles>
+               </xml>";
+        $textTpl = "<xml>                                    
+                    <ToUserName><![CDATA[%s]]></ToUserName>
+                    <FromUserName><![CDATA[%s]]></FromUserName>
+                    <CreateTime>%s</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA[%s]]></Content>
+                    <FuncFlag>%d</FuncFlag>
+                    </xml>"; 
+     // $resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, $time, $result, 0);
+        $title="Linux命令之：$keyword";
 	$description="好好看,好好学\n这个命令呢是这样的";
 	$resultStr1 = sprintf($news, $object->FromUserName, $object->ToUserName, $time, $title, $description,$url);
-	return $resultStr1;
+	 return $resultStr1;
 }
-
-
-/*********************百度云资源查询函数*****************/
-
-function bdsearch($keyword,$object){
-	$contentStr=shell_exec("python movice.py $keyword");
-	$time=time();
-	$textTpl = "<xml>                                    
-				<ToUserName><![CDATA[%s]]></ToUserName>
-				<FromUserName><![CDATA[%s]]></FromUserName>
-				<CreateTime>%s</CreateTime>
-				<MsgType><![CDATA[text]]></MsgType>
-				<Content><![CDATA[%s]]></Content>
-				<FuncFlag>%d</FuncFlag>
-				</xml>"; 
-	$resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, $time, $contentStr, 0);
-	return $resultStr;
-}
-
-/*********************百度云资源查询函数*****************/
 
 /******************Linux命令查询函数***********************/
 function robot1($content)

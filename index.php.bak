@@ -105,7 +105,7 @@ class wechat_php         //创建一个微信类
         }
       switch ($event){
 		case "subscribe":
-			$contentStr ="谢谢关注，发送文字或语音消息可以和我聊天哦发送'.'+Linux命令可查询该命令详细介绍发送'/'+关键字可以查询相关百度云资源,发送点歌+歌名可以点歌，后面加\"*\"+歌手名可以指定歌手";                
+			$contentStr ="谢谢关注，发送文字或语音消息可以和我聊天哦，发送'.'+Linux命令可查询该命令详细介绍,发送点歌+歌名可以点歌，后面加\"*\"+歌手名可以指定歌手";                
                   break;
 		case "aaa":
                  $contentStr = "更多功能正在开发哦，敬请期待！";
@@ -121,47 +121,42 @@ class wechat_php         //创建一个微信类
   public function respon($object, $keyword){
 		$funcFlag = 0;
         $temp=substr($keyword,0,1);
-		switch($temp){
-			case ".":
-				$keyword=str_replace(".","",$keyword);
-				$resultStr=linux_comman($keyword,$object);
-			break;
-			case "/":
-				$keyword=str_replace("/","",$keyword);
-				$resultStr=bdsearch($keyword,$object);
-			break;
-			default:
-				$key=strstr($keyword, "点歌");
-				$keyword = $keyword;
-				if($key<>""){
-					$resultStr=$this->getmusic($object, $keyword);
-				}
-				else
-				{  
-					/* $temp = robot($keyword,$object);
-					$contentStr = implode("",array($temp[1],$temp[2]));
-					$resultStr=$this->constructText($object, $contentStr, $funcFlag);
-					/*$contentStr = robot1($keyword); //机器人1号
-					$textTpl = "<xml>                                    
-								<ToUserName><![CDATA[%s]]></ToUserName>
-								<FromUserName><![CDATA[%s]]></FromUserName>
-								<CreateTime>%s</CreateTime>
-								<MsgType><![CDATA[text]]></MsgType>
-								<Content><![CDATA[%s]]></Content>
-								<FuncFlag>%d</FuncFlag>
-								</xml>"; 
-					$resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, time(), $contentStr, 0);*/
-					$resultStr = robot($keyword, $object);
-				}
-			break;
+		if($temp=="."){
+			$keyword=str_replace(".","",$keyword);
+			$resultStr=linux_comman($keyword,$object);
 			}
+       else
+	{
+	$key=strstr($keyword, "点歌");
+        $keyword = $keyword;
+        if($key<>""){
+			$resultStr=$this->getmusic($object, $keyword);
+        }
+        else
+        {  
+            /* $temp = robot($keyword,$object);
+			$contentStr = implode("",array($temp[1],$temp[2]));
+			$resultStr=$this->constructText($object, $contentStr, $funcFlag);
+            /*$contentStr = robot1($keyword); //机器人1号
+            $textTpl = "<xml>                                    
+						<ToUserName><![CDATA[%s]]></ToUserName>
+						<FromUserName><![CDATA[%s]]></FromUserName>
+						<CreateTime>%s</CreateTime>
+						<MsgType><![CDATA[text]]></MsgType>
+						<Content><![CDATA[%s]]></Content>
+						<FuncFlag>%d</FuncFlag>
+						</xml>"; 
+            $resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, time(), $contentStr, 0);*/
+            $resultStr = robot($keyword, $object);
+        }
+	}
 		return $resultStr;
     }
 /**********************消息处理函数*************************/
 
  /**********************文字消息封装函数*************************/
 
-public function constructText($object, $content, $flag=0)  
+  public function constructText($object, $content, $flag=0)  
     {
         $textTpl = "<xml>                                    
                     <ToUserName><![CDATA[%s]]></ToUserName>
@@ -177,7 +172,7 @@ public function constructText($object, $content, $flag=0)
 /**********************文字消息封装函数*************************/
     
 /**********************点歌系统函数*************************/    
-public function getmusic($postObj, $keyword)    //
+   public function getmusic($postObj, $keyword)    //
         {   	
        		$ret = "<xml>
 					<ToUserName><![CDATA[%s]]></ToUserName>

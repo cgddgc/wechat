@@ -176,8 +176,8 @@
 #echo get_music_info("440353010");
 //$output=$output[code];
 //echo $output=get_musicUrl("我可以",1);
-//$output=json_decode(get_search("玲珑",1),true);
-//var_dump($output);
+$output=json_decode(get_search("玲珑",1),true);
+var_dump($output);
 //echo $output['result']['songs'][0]['id'];
 //echo $output=get_music_in('5250096');
 ?>
